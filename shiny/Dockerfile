@@ -22,12 +22,19 @@ RUN install2.r --error \
     ggplot2 \
     htmlwidgets
 
-# 3. Copy app code and shapefiles
+    FROM rocker/shiny:4.2.2
+
+# (system deps and install2.r lines here…)
+
+# Copy your custom config **before** start
+COPY shiny-server.conf /etc/shiny-server/shiny-server.conf
+
+# Copy your app & shapefiles
 COPY app.R /srv/shiny-server/
 COPY LGA_shapefile_cleaned/ /srv/shiny-server/LGA_shapefile_cleaned/
 
-# 4. Fix permissions
 RUN chown -R shiny:shiny /srv/shiny-server
 
 EXPOSE 3838
-CMD ["/usr/bin/shiny-server", "--server-daemonize=0"]
+CMD ["/usr/bin/shiny-server","--server-daemonize=0"]
+
