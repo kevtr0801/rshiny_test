@@ -1,9 +1,8 @@
-# shiny/Dockerfile
-
 FROM rocker/shiny:4.2.2
 
-# 1. Install OS libraries needed by sf (and RPostgres’s libpq)
+# Install OS libraries needed by sf & units and by RPostgres
 RUN apt-get update && apt-get install -y \
+      libudunits2-0 \
       libudunits2-dev \
       libgdal-dev \
       libgeos-dev \
@@ -11,22 +10,26 @@ RUN apt-get update && apt-get install -y \
       libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Install R packages
+# Install R packages
+# 2. Install R packages, including the tidyverse umbrella
 RUN install2.r --error \
     shiny \
     leaflet \
     sf \
-    tidyverse \
+    dplyr \
+    tidyr \
+    stringr \
     DBI \
     RPostgres \
     ggplot2 \
-    htmlwidgets
+    htmlwidgets \
+    tidyverse
 
-# 3. Copy the app code and shapefile
+# Copy app and shapefile
 COPY app.R /srv/shiny-server/
 COPY LGA_shapefile_cleaned/ /srv/shiny-server/LGA_shapefile_cleaned/
 
-# 4. Fix permissions
+# Fix permissions
 RUN chown -R shiny:shiny /srv/shiny-server
 
 EXPOSE 3838
