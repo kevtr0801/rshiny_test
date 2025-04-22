@@ -1,3 +1,11 @@
+# ─── Debug prints ────────────────────────────────────────────────────────────────
+cat(">>> ENV VARS:\n")
+print(Sys.getenv(c("NEON_HOST","NEON_PORT","NEON_DB","NEON_USER","NEON_PASS","PORT")))
+cat(">>> shapefile folder listing:\n")
+print(list.files("LGA_shapefile_cleaned"))
+cat(">>> END DEBUG ─────────────────────────────────────────────────────\n\n")
+
+
 # app.R
 library(shiny)
 library(leaflet)
