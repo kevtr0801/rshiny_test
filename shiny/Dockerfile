@@ -8,7 +8,7 @@ RUN install2.r --error \
     shiny \
     leaflet \
     sf \
-    dplyr \
+    tidyverse \
     DBI \
     RPostgres \
     ggplot2 \
@@ -16,6 +16,9 @@ RUN install2.r --error \
 
 # 3. Copy your app code into the container
 COPY app.R /srv/shiny-server/
+
+# copy in the shapefile directory
+COPY LGA_shapefile_cleaned/ /srv/shiny-server/LGA_shapefile_cleaned/
 
 # 4. Ensure permissions are correct
 RUN chown -R shiny:shiny /srv/shiny-server
