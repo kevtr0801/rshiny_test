@@ -1,0 +1,5 @@
+# shiny/.dockerignore
+.Rhistory
+.Rproj.user
+*.RData
+data/
